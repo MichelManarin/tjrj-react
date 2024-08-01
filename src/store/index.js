@@ -3,6 +3,7 @@ import { persistStore, persistReducer } from "redux-persist";
 
 import storage from "redux-persist/lib/storage";
 
+import precificacoesReducer from "./reducers/precificacoes";
 import assuntosReducer from "./reducers/assuntos";
 import autoresReducer from "./reducers/autores";
 import canaisReducer from "./reducers/canais";
@@ -42,19 +43,24 @@ import {
   fetchCanalDataSaga
 } from "./sagax/canais";
 
+import {
+  fetchPrecificacoesDataSaga,
+  createPrecificacoesDataSaga
+} from "./sagax/precificacoes";
 
 const rootReducer = combineReducers({
+  precificacoes: precificacoesReducer,
   assuntos: assuntosReducer,
   autores: autoresReducer,
   livros: livroReducer,
   report: reportReducer,
-  canais: canaisReducer
+  canais: canaisReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["assuntos", "autores", "livros", "report", "canais"],
+  whitelist: ["assuntos", "autores", "livros", "report", "canais", "precificacoes"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -63,6 +69,8 @@ const sagaMiddleware = createSagaMiddleware();
 
 function* rootSaga() {
   yield all([
+    createPrecificacoesDataSaga(),
+    fetchPrecificacoesDataSaga(),
     fetchAssuntosDataSaga(),
     fetchAutoresDataSaga(),
     deleteAssuntosDataSaga(),
@@ -76,7 +84,7 @@ function* rootSaga() {
     editlivrosDataSaga(),
     fetchlivrosDataSaga(),
     fetchReportDataSaga(),
-    fetchCanalDataSaga()
+    fetchCanalDataSaga(),
   ]);
 }
 

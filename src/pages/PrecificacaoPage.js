@@ -4,33 +4,85 @@ import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
+import Alert from "react-bootstrap/Alert";
 import { useParams } from "react-router-dom";
 
 import { canaisRequest } from "../store/actions/canais";
+import {
+  precificacoesRequest,
+  CreatePrecificacoesRequest,
+} from "../store/actions/precificacoes";
 
 const PrecificacaoPage = () => {
   const { id } = useParams();
 
-  console.log("id ", id)
-
   const dispatch = useDispatch();
   const canaisResponse = useSelector((state) => state.canais);
+  const precificacoesResponse = useSelector((state) => state.precificacoes);
 
-  // const dispatch = useDispatch();
-  // const assuntosResponse = useSelector((state) => state.assuntos);
+  let initForm = {
+    Codl: parseInt(id),
+    CodCa: null,
+    Preco: 0.0,
+  };
+
+  const [errors, setErrors] = useState({});
+
+  const [precificacao, setPrecificacao] = useState(initForm);
+
+  const handleChange = (e) => {
+    const { name, value, type } = e.target;
+
+    let newValue =
+      type === "number" ? parseFloat(value.replace(",", ".")) || 0 : value;
+
+    setPrecificacao((prevForm) => ({
+      ...prevForm,
+      [name]: newValue,
+    }));
+  };
+
+  const formatNumber = (value) => {
+    return value != null ? value.toString().replace(".", ",") : "";
+  };
 
   useEffect(() => {
     dispatch(canaisRequest());
+    dispatch(precificacoesRequest());
   }, [dispatch]);
 
-  // const onDelete = (id) => {
-  //   dispatch(assuntosDeleteRequest(id));
-  // };
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const handleSubmit = () => {};
+    const localErrors = {};
+    if (!precificacao.CodCa)
+      localErrors.CodCa = "O código do canal é obrigatório.";
+    if (!precificacao.Codl)
+      localErrors.Codl = "O código do livro é obrigatório.";
+    if (
+      !precificacao.Preco ||
+      parseFloat(precificacao.Preco.replace(",", ".")) <= 0
+    )
+      localErrors.Preco = "O preço deve ser maior que zero.";
 
-  const assuntosResponse = [];
+    if (Object.keys(localErrors).length > 0) {
+      setErrors(localErrors);
+      return;
+    }
+
+    const precoFloat =
+      parseFloat(precificacao.Preco.toString().replace(",", ".")) || 0;
+
+    dispatch(
+      CreatePrecificacoesRequest({
+        ...precificacao,
+        Preco: precoFloat,
+      })
+    );
+
+    setErrors({});
+    setPrecificacao(initForm);
+  };
 
   return (
     <Container style={{ marginTop: "100px" }}>
@@ -46,18 +98,13 @@ const PrecificacaoPage = () => {
           </tr>
         </thead>
         <tbody>
-          {assuntosResponse?.assuntos?.map((assunto) => (
-            <tr key={assunto.codAs}>
-              <td>{assunto.codAs}</td>
-              <td colSpan={4}>{assunto.descricao}</td>
+          {precificacoesResponse?.precificacoes?.map((precificacao) => (
+            <tr key={precificacao.codPr}>
+              <td>{precificacao?.livro?.titulo}</td>
+              <td>{precificacao?.canalVenda?.nome}</td>
+              <td>{precificacao?.preco}</td>
               <td>
-                <Link to="/assunto/editar" state={{ assunto }}>
-                  <Button>Editar</Button>
-                </Link>
-
-                <Button variant="danger" style={{ marginLeft: "5px" }}>
-                  Deletar
-                </Button>
+                {new Date(precificacao?.dataCriacao).toLocaleDateString()}
               </td>
             </tr>
           ))}
@@ -65,13 +112,30 @@ const PrecificacaoPage = () => {
       </Table>
 
       <h4>Criar Nova Precificação</h4>
+      {Object.keys(errors).length > 0 && (
+        <Alert variant="danger">
+          <ul>
+            {Object.values(errors).map((error, index) => (
+              <li key={index}>{error}</li>
+            ))}
+          </ul>
+        </Alert>
+      )}
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formCanal">
           <Form.Label>Canal de Vendas</Form.Label>
           <Form.Control
             as="select"
-            // value={canal}
-            // onChange={(e) => setCanal(e.target.value)}
+            value={precificacao?.codCa}
+            onChange={(e) =>
+              handleChange({
+                target: {
+                  name: "CodCa",
+                  value: e.target.value,
+                  type: "number",
+                },
+              })
+            }
           >
             <option value="">Selecione um canal</option>
             {canaisResponse?.canais?.map((canal) => (
@@ -85,10 +149,11 @@ const PrecificacaoPage = () => {
         <Form.Group controlId="formPreco">
           <Form.Label>Preço</Form.Label>
           <Form.Control
-            type="number"
+            type="text"
             placeholder="Digite o preço"
-            // value={preco}
-            // onChange={(e) => setPreco(e.target.value)}
+            name="Preco"
+            value={formatNumber(precificacao.Preco)}
+            onChange={handleChange}
           />
         </Form.Group>
 

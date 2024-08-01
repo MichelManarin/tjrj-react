@@ -53,6 +53,9 @@ const LivroPage = () => {
                 <Link to="/livro/editar" state={{ livro }}>
                   <Button>Editar</Button>
                 </Link>
+                <Link to={`/livro/${livro.codl}/precificacao`}>
+                  <Button style={{ marginLeft: "5px" }}>Precificação</Button>
+                </Link>
                 <Button
                   variant="danger"
                   style={{ marginLeft: "5px" }}
