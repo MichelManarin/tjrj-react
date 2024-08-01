@@ -11,6 +11,7 @@ import EditLivroPage from "./pages/EditLivroPage";
 import EditAssuntoPage from "./pages/EditAssuntoPage";
 import EditAutorPage from "./pages/EditAutorPage";
 import RelatorioPage from "./pages/RelatorioPage";
+import PrecificacaoPage from "./pages/PrecificacaoPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/livros" element={<LivroPage />} />
         <Route path="/assuntos" element={<AssuntoPage />} />
         <Route path="/autores" element={<AutorPage />} />
+        <Route path="/livro/:id/precificacao" element={<PrecificacaoPage />} />
         <Route path="/" element={<AutorPage />} />
       </Routes>
     </>

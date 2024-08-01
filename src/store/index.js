@@ -5,6 +5,7 @@ import storage from "redux-persist/lib/storage";
 
 import assuntosReducer from "./reducers/assuntos";
 import autoresReducer from "./reducers/autores";
+import canaisReducer from "./reducers/canais";
 import livroReducer from "./reducers/livros";
 import reportReducer from "./reducers/report";
 
@@ -37,18 +38,23 @@ import {
   fetchReportDataSaga
 } from "./sagax/report";
 
+import {
+  fetchCanalDataSaga
+} from "./sagax/canais";
+
 
 const rootReducer = combineReducers({
   assuntos: assuntosReducer,
   autores: autoresReducer,
   livros: livroReducer,
   report: reportReducer,
+  canais: canaisReducer
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["assuntos", "autores", "livros", "report"],
+  whitelist: ["assuntos", "autores", "livros", "report", "canais"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -70,6 +76,7 @@ function* rootSaga() {
     editlivrosDataSaga(),
     fetchlivrosDataSaga(),
     fetchReportDataSaga(),
+    fetchCanalDataSaga()
   ]);
 }
 
