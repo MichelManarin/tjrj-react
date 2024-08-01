@@ -6,8 +6,8 @@ export const CREATE_REQUEST = "precificacoes/CREATE_REQUEST";
 export const CREATE_SUCCESS = "precificacoes/CREATE_SUCCESS";
 export const CREATE_FAILURE = "precificacoes/CREATE_FAILURE";
 
-export function precificacoesRequest() {
-  return { type: LIST_REQUEST };
+export function precificacoesRequest(payload) {
+  return { type: LIST_REQUEST, payload };
 }
 
 export function precificacoesSuccess(payload) {

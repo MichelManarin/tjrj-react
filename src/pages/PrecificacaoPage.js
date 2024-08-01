@@ -48,7 +48,7 @@ const PrecificacaoPage = () => {
 
   useEffect(() => {
     dispatch(canaisRequest());
-    dispatch(precificacoesRequest());
+    dispatch(precificacoesRequest(id));
   }, [dispatch]);
 
   const handleSubmit = (e) => {
