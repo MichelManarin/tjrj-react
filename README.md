@@ -1,5 +1,5 @@
 # FRONT
-Utilizei React 18 para o front-end, juntamente com Redux e Redux-Saga para o gerenciamento de estado assíncrono, essa combinação facilita o gerenciamento das requisições do cliente para o back-end. Devido à minha experiência limitada com versões antigas do Angular escolhi o React. O Bootstrap foi escolhido como framework visual. 
+Utilizei React 18 para o front-end, juntamente com Redux e Redux-Saga para o gerenciamento de estado assíncrono, essa combinação facilita o gerenciamento das requisições do cliente para o back-end. Devido à minha experiência limitada a versões antigas do Angular, como por exemplo a primeira versão do framework, escolhi o React. O Bootstrap foi escolhido como framework visual. 
 
 ![image](https://github.com/user-attachments/assets/d16649aa-f475-4209-83f6-db357093e4d4)
 ![image](https://github.com/user-attachments/assets/31e4a084-2d59-43b9-86ae-300f99c4a1ec)
