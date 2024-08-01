@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import { useHistory } from "react-router-dom";
 import { livrosRequest, livrosDeleteRequest } from "../store/actions/livros";
+import { Link } from "react-router-dom";
 
 const LivroPage = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const livrosResponse = useSelector((state) => state.livros);
 
@@ -19,24 +18,18 @@ const LivroPage = () => {
     dispatch(livrosDeleteRequest(id));
   };
 
-  const goToCreate = () => {
-    history.push("/livro/novo");
-  };
-
-  const goToEdit = (livro) => {
-    history.push("/livro/editar", { livro });
-  };
-
   return (
     <Container style={{ marginTop: "100px" }}>
       <h4>Livros</h4>
-      <Button
-        variant="secondary"
-        style={{ float: "right", marginBottom: "15px" }}
-        onClick={() => goToCreate()}
-      >
-        Adicionar
-      </Button>
+      <Link to="/livro/novo">
+        <Button
+          variant="secondary"
+          style={{ float: "right", marginBottom: "15px" }}
+        >
+          Adicionar
+        </Button>
+      </Link>
+
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -50,7 +43,6 @@ const LivroPage = () => {
         </thead>
         <tbody>
           {livrosResponse?.livros?.map((livro) => (
-            
             <tr key={livro.codl}>
               <td>{livro.codl}</td>
               <td>{livro.titulo}</td>
@@ -58,7 +50,9 @@ const LivroPage = () => {
               <td>{livro.edicao}</td>
               <td>{livro.anoPublicacao}</td>
               <td>
-                <Button onClick={() => goToEdit(livro)}>Editar</Button>
+                <Link to="/livro/editar" state={{ livro }}>
+                  <Button>Editar</Button>
+                </Link>
                 <Button
                   variant="danger"
                   style={{ marginLeft: "5px" }}

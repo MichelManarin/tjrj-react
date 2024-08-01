@@ -1,6 +1,5 @@
 import React from "react";
-import "./App.css";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/navbar";
 import AssuntoPage from "./pages/AssuntoPage";
 import AutorPage from "./pages/AutorPage";
@@ -15,22 +14,22 @@ import RelatorioPage from "./pages/RelatorioPage";
 
 function App() {
   return (
-    <Router>
+    <>
       <NavBar />
-      <Switch>
-        <Route exact path="/livros" component={LivroPage} />
-        <Route exact path="/assuntos" component={AssuntoPage} />
-        <Route exact path="/autores" component={AutorPage} />
-        <Route path="/livro/novo" component={CreateLivroPage} />
-        <Route path="/autor/novo" component={CreateAutorPage} />
-        <Route path="/assunto/novo" component={CreateAssuntoPage} />
-        <Route path="/autor/editar" component={EditAutorPage} />
-        <Route path="/assunto/editar" component={EditAssuntoPage} />
-        <Route path="/livro/editar" component={EditLivroPage} />
-        <Route path="/relatorio" component={RelatorioPage} />
-        <Route exact path="/" component={AutorPage} />
-      </Switch>
-    </Router>
+      <Routes>
+        <Route path="/livro/novo" element={<CreateLivroPage />} />
+        <Route path="/autor/novo" element={<CreateAutorPage />} />
+        <Route path="/assunto/novo" element={<CreateAssuntoPage />} />
+        <Route path="/autor/editar" element={<EditAutorPage />} />
+        <Route path="/assunto/editar" element={<EditAssuntoPage />} />
+        <Route path="/livro/editar" element={<EditLivroPage />} />
+        <Route path="/relatorio" element={<RelatorioPage />} />
+        <Route path="/livros" element={<LivroPage />} />
+        <Route path="/assuntos" element={<AssuntoPage />} />
+        <Route path="/autores" element={<AutorPage />} />
+        <Route path="/" element={<AutorPage />} />
+      </Routes>
+    </>
   );
 }
 

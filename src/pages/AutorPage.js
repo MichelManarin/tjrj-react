@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { autoresRequest, autoresDeleteRequest } from "../store/actions/autores";
+
 const AutorPage = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const autoresResponse = useSelector((state) => state.autores);
 
@@ -17,25 +17,17 @@ const AutorPage = () => {
   const onDelete = (id) => {
     dispatch(autoresDeleteRequest(id));
   };
-
-  const goToCreate = () => {
-    history.push("/autor/novo");
-  };
-
-  const goToEdit = (autor) => {
-    history.push("/autor/editar", { autor });
-  };
-
   return (
     <Container style={{ marginTop: "100px" }}>
       <h4>Autores</h4>
-      <Button
-        variant="secondary"
-        style={{ float: "right", marginBottom: "15px" }}
-        onClick={() => goToCreate()}
-      >
-        Adicionar
-      </Button>
+      <Link to="/autor/novo">
+        <Button
+          variant="secondary"
+          style={{ float: "right", marginBottom: "15px" }}
+        >
+          Adicionar
+        </Button>
+      </Link>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -50,7 +42,9 @@ const AutorPage = () => {
               <td>{autor.codAu}</td>
               <td colSpan={4}>{autor.nome}</td>
               <td>
-                <Button onClick={() => goToEdit(autor)}>Editar</Button>
+                <Link to="/autor/editar" state={{ autor }}>
+                  <Button>Editar</Button>
+                </Link>
                 <Button
                   variant="danger"
                   style={{ marginLeft: "5px" }}

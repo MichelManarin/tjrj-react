@@ -12,7 +12,7 @@ const EditAssuntoPage = () => {
 
   const { assunto } = location.state;
 
-  const [descricao, setDescricao] = useState("");
+  const [descricao, setDescricao] = useState(assunto?.descricao ?? "");
 
   const handleSubmit = (e) => {
     e.preventDefault();

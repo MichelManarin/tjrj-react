@@ -11,7 +11,7 @@ const CreateAutorPage = () => {
   const dispatch = useDispatch();
 
   const { autor } = location.state;
-  const [nome, setNome] = useState("");
+  const [nome, setNome] = useState(autor?.nome ?? "");
 
   const handleSubmit = (e) => {
     e.preventDefault();

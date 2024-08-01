@@ -1,18 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import {
   assuntosRequest,
   assuntosDeleteRequest,
 } from "../store/actions/assuntos";
-import { Link } from "react-router-dom/cjs/react-router-dom";
 
 const AssuntoPage = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const assuntosResponse = useSelector((state) => state.assuntos);
 
@@ -24,26 +22,18 @@ const AssuntoPage = () => {
     dispatch(assuntosDeleteRequest(id));
   };
 
-  const goToCreate = () => {
-    history.push("/assunto/novo");
-  };
-
-  const goToEdit = (assunto) => {
-    history.push("/assunto/editar", { assunto });
-  };
-
   return (
     <Container style={{ marginTop: "100px" }}>
       <h4>Assuntos</h4>
-      <Link>
+      <Link to="/assunto/novo">
+        <Button
+          variant="secondary"
+          style={{ float: "right", marginBottom: "15px" }}
+        >
+          Adicionar
+        </Button>
       </Link>
-      <Button
-        variant="secondary"
-        onClick={() => goToCreate()}
-        style={{ float: "right", marginBottom: "15px" }}
-      >
-        Adicionar
-      </Button>
+
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -58,7 +48,10 @@ const AssuntoPage = () => {
               <td>{assunto.codAs}</td>
               <td colSpan={4}>{assunto.descricao}</td>
               <td>
-                <Button onClick={() => goToEdit(assunto)}>Editar</Button>
+                <Link to="/assunto/editar" state={{ assunto }}>
+                  <Button>Editar</Button>
+                </Link>
+
                 <Button
                   variant="danger"
                   style={{ marginLeft: "5px" }}
