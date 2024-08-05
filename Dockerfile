@@ -1,14 +1,14 @@
-FROM node:16.20.2
+FROM node:16.20.2 AS development
+
+ENV NODE_ENV development
 
 WORKDIR /usr/src/bookmanager
 
-COPY package*.json ./
+COPY package.json .
 
 RUN npm install
 
 COPY . .
-
-RUN npm run build
 
 EXPOSE 8080
 
