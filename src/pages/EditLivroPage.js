@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Alert from "react-bootstrap/Alert";
+
 import { useLocation } from "react-router-dom";
 import { livrosEditRequest } from "../store/actions/livros";
 import { assuntosRequest } from "../store/actions/assuntos";
@@ -13,6 +15,8 @@ const EditLivroPage = () => {
   const { livro: livroProps } = location.state;
 
   const dispatch = useDispatch();
+
+  const [errors, setErrors] = useState({});
 
   let initForm = {
     Codl: livroProps.codl,
@@ -59,8 +63,29 @@ const EditLivroPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const localErrors = {};
+    if (!livro?.Titulo)
+      localErrors.Titulo = "O título é obrigatório.";
+    if (!livro?.Editora)
+      localErrors.Editora = "A Editora é obrigatório.";
+    if (!livro?.AnoPublicacao)
+      localErrors.Editora = "O Ano de publicação é obrigatório.";
+    if (!livro?.AutoresIds?.length > 0)
+      localErrors.Autores = "É necessário selecionar ao menos um autor.";
+    if (!livro?.AssuntosIds?.length > 0)
+      localErrors.Assuntos = "É necessário selecionar ao menos um assunto.";
+    if (!typeof(livro?.Edicao) === "number")
+      localErrors.Preco = "A edição deve ser maior que zero.";
+
+    if (Object.keys(localErrors).length > 0) {
+      setErrors(localErrors);
+      return;
+    }
+
     dispatch(livrosEditRequest(livro));
     clearForm();
+    setErrors({});
   };
 
   const clearForm = () => {
@@ -70,6 +95,15 @@ const EditLivroPage = () => {
   return (
     <Container style={{ marginTop: "100px" }}>
       <h4>Editar Livro</h4>
+      {Object.keys(errors).length > 0 && (
+        <Alert variant="danger">
+          <ul>
+            {Object.values(errors).map((error, index) => (
+              <li key={index}>{error}</li>
+            ))}
+          </ul>
+        </Alert>
+      )}
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formTitulo">
           <Form.Label>Título</Form.Label>

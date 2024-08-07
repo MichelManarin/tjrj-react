@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
+import NumericField from "../components/numericField";
 import { useParams } from "react-router-dom";
 
 import { canaisRequest } from "../store/actions/canais";
@@ -61,7 +62,7 @@ const PrecificacaoPage = () => {
       localErrors.Codl = "O código do livro é obrigatório.";
     if (
       !precificacao.Preco ||
-      parseFloat(precificacao.Preco.replace(",", ".")) <= 0
+      precificacao <= 0
     )
       localErrors.Preco = "O preço deve ser maior que zero.";
 
@@ -102,7 +103,7 @@ const PrecificacaoPage = () => {
             <tr key={precificacao.codPr}>
               <td>{precificacao?.livro?.titulo}</td>
               <td>{precificacao?.canalVenda?.nome}</td>
-              <td>{precificacao?.preco}</td>
+              <td>{precificacao?.preco?.toString().replace(".", ",")}</td>
               <td>
                 {new Date(precificacao?.dataCriacao).toLocaleDateString()}
               </td>
@@ -148,13 +149,7 @@ const PrecificacaoPage = () => {
 
         <Form.Group controlId="formPreco">
           <Form.Label>Preço</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Digite o preço"
-            name="Preco"
-            value={formatNumber(precificacao.Preco)}
-            onChange={handleChange}
-          />
+          <NumericField defaultValue={formatNumber(precificacao.Preco)} handleChange={handleChange} />
         </Form.Group>
 
         <Button variant="primary" type="submit" style={{ marginTop: "10px" }}>

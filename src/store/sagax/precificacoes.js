@@ -24,7 +24,7 @@ function* createPrecificacoesData({ payload }) {
   try {
     const { data } = yield call(api.post, "v1/precificacoes", payload);
     yield put({ type: CREATE_SUCCESS, payload: data });
-    yield put({ type: LIST_REQUEST, payload: data });
+    yield put({ type: LIST_REQUEST, payload: payload.Codl });
   } catch (error) {
     yield put({ type: CREATE_FAILURE, error });
   }

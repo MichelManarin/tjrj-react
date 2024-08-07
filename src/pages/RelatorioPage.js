@@ -11,8 +11,6 @@ const RelatorioPage = () => {
 
   const reportResponse = useSelector((state) => state.report)?.report;
 
-  console.log("reportResponse ", reportResponse);
-
   useEffect(() => {
     if (reportResponse && reportResponse.fileContents) {
       const base64 = reportResponse.fileContents;
@@ -25,7 +23,6 @@ const RelatorioPage = () => {
       const blob = new Blob([byteArray], { type: reportResponse.contentType });
       const url = URL.createObjectURL(blob);
       setPdfData(url);
-      console.log(url);
     }
   }, [reportResponse]);
 
