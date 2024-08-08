@@ -6,5 +6,5 @@ Utilizei React 18 para o front-end, juntamente com Redux e Redux-Saga para o ger
 ![image](https://github.com/user-attachments/assets/36a24ba6-23df-40ae-80aa-78221587e8ff)
 ![image](https://github.com/user-attachments/assets/ba45138d-ce02-43dc-8e52-a051324b2254)
 ![image](https://github.com/user-attachments/assets/4e4ac9ee-d7a5-4772-abd8-1e2adf9eca02)
-![image](https://github.com/user-attachments/assets/258b0082-aec5-4b0a-9a2b-fe4a33241e6e)
+![image](https://github.com/user-attachments/assets/8912f90a-9800-42a7-9cce-dcda461e15fb)
 ![image](https://github.com/user-attachments/assets/8682985b-6529-49f5-af4c-165f296a51ac)
